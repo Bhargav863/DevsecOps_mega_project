@@ -1,4 +1,4 @@
-From node:22-alpine As builder
+FROM node:22-alpine As builder
 
 WORKDIR /app
 COPY package*.json ./
@@ -9,7 +9,7 @@ RUN npm install
 COPY . .
 
 # Build the React app (generates static files in /build)
-RUN npm build
+RUN npm run build
 
 # Stage 2: Serve with Nginx
 
