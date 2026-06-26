@@ -10,10 +10,10 @@ services:
      MYSQL_ROOT_PASSWORD: Bhargav
      MYSQL_DATABASE: crud_app
    volumes:
-     - mysql-data: /var/lib/mysql
+     - mysql-data:/var/lib/mysql
      - ./mysql-init:/docker-entrypoint-initdb.d
    ports:
-     - "3306":"3306"
+     - "3306:3306"
     
   Backend:
    build: ./api
@@ -28,7 +28,7 @@ services:
    depens_on:
     - mysql
    ports:
-    - "5000":"5000"
+    - "5000:5000"
   
   Frontend:
    build: ./client
@@ -36,4 +36,7 @@ services:
    depends_on:
     - Backend
    ports:
-    - "3000":"80"
+    - "3000:80"
+
+volumes:
+  mysql-data
