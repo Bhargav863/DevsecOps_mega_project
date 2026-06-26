@@ -17,7 +17,7 @@ services:
     
   Backend:
    build: ./api
-   conatiner_name: backend-api
+   container_name: backend-api
    environment:
      DB_HOST: mysql
      DB_USER: root
@@ -25,7 +25,7 @@ services:
      DB_NAME: crud_app
      JWT_SECRET: devopsShackSuperSecretKey
      RESET_ADMIN_PASS: 'true'
-   depens_on:
+   depends_on:
     - mysql
    ports:
     - "5000:5000"
