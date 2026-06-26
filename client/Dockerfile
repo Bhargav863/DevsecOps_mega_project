@@ -1,7 +1,7 @@
 From node:22-alpine As builder
 
 WORKDIR /app
-COPY package*.json ./app
+COPY package*.json ./
 #  Clean and fast install using lock file (CI-style)
 RUN npm ci 
 
