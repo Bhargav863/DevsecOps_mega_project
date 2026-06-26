@@ -3,7 +3,7 @@ From node:22-alpine As builder
 WORKDIR /app
 COPY package*.json ./
 #  Clean and fast install using lock file (CI-style)
-RUN npm ci 
+RUN npm install
 
 # Now copy the remaining app source files
 COPY . .
