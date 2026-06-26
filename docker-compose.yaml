@@ -15,7 +15,7 @@ services:
    ports:
      - "3306:3306"
     
-  Backend:
+  backend:
    build: ./api
    container_name: backend-api
    environment:
@@ -30,11 +30,11 @@ services:
    ports:
     - "5000:5000"
   
-  Frontend:
+  frontend:
    build: ./client
    container_name: Frontend-react
    depends_on:
-    - Backend
+    - backend
    ports:
     - "3000:80"
 
