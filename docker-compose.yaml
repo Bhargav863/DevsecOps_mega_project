@@ -39,4 +39,4 @@ services:
     - "3000:80"
 
 volumes:
-  mysql-data
+  mysql-data:
