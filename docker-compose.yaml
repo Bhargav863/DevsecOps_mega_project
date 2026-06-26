@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+
+  mysql:
+   image: mysql:8
+   container_name: mysql
+   restart: always
+   environment:
+     MYSQL_ROOT_PASSWORD: Bhargav
+     MYSQL_DATABASE: crud_app
+   volumes:
+     - mysql-data: /var/lib/mysql
+     - ./mysql-init:/docker-entrypoint-initdb.d
+   ports:
+     - "3306":"3306"
+    
+  Backend:
+   build: ./api
+   conatiner_name: backend-api
+   environment:
+     DB_HOST: mysql
+     DB_USER: root
+     DB_PASSWORD: Bhargav
+     DB_NAME: crud_app
+     JWT_SECRET: devopsShackSuperSecretKey
+     RESET_ADMIN_PASS: 'true'
+   depens_on:
+    - mysql
+   ports:
+    - "5000":"5000"
+  
+  Frontend:
+   build: ./client
+   container_name: Frontend-react
+   depends_on:
+    - Backend
+   ports:
+    - "3000":"80"
