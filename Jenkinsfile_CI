@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git branch: 'dev', url: 'https://github.com/Bhargav863/DevsecOps_mega_project.git'
+                git branch: 'docker-deploy', url: 'https://github.com/Bhargav863/DevsecOps_mega_project.git'
             }
         }
         
@@ -59,6 +59,40 @@ pipeline {
         stage('trivy fs scan') {
             steps {
                 sh 'trivy fs --format table -o fs-report.html .'
+            }
+        }
+        
+        stage('Build tag and push backend docker image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'Docker-cred') {
+                       dir('api') {
+                          sh 'docker build -t bhargav863/backend:latest .'
+                          sh 'trivy image --format table -o backend-image-report.html bhargav863/backend:latest '
+                          sh ' docker push bhargav863/backend:latest'
+                       }
+                   }
+                }
+            }
+        }
+        
+        stage('Build and push fronetend image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'Docker-cred') {
+                      dir('client') {
+                          sh 'docker build -t bhargav863/frontend:latest .'
+                          sh 'trivy image --format table -o frontend-image-report.html bhargav863/frontend:latest'
+                          sh 'docker push bhargav863/frontend:latest'
+                      }
+                   }
+                }
+            }
+        }
+        
+        stage('Docker deploy via compose') {
+            steps {
+                sh 'docker compose up -d'
             }
         }
     }
